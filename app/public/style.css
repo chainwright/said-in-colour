@@ -45,6 +45,8 @@ a { color: var(--light); }
 .lens-handle:active { cursor: grabbing; }
 .stage figcaption { position: absolute; left: 32px; bottom: 18px; font: 400 13px/1.3 var(--mono); color: var(--light-dim); }
 
+.chart { opacity: 0; transition: opacity .5s ease-out; }
+.chart.ready { opacity: 1; }
 .chart { align-self: center; padding: 0 6vw 0 2vw; text-align: center; text-transform: uppercase; }
 .chart p { margin: 0; font-family: var(--display); font-weight: 800; letter-spacing: .06em; line-height: 1.05;
   color: var(--light); text-shadow: 0 0 18px rgba(238,243,244,.35), 0 0 2px rgba(238,243,244,.6); }

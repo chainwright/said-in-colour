@@ -1,0 +1,15 @@
+# secrets / env
+*.env
+.deploy.env
+.mcp.json
+
+# dependencies
+node_modules/
+
+# video intermediates (the final cut lives on YouTube)
+video/frames/
+video/scenes/
+video/build/
+video/*.mp4
+video/vo/*.wav
+video/vo/raw_*.mp3

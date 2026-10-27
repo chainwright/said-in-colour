@@ -45,6 +45,7 @@ function words() {
   $("verdict").innerHTML = `<b>${label}</b> · difference ${r.gap.toFixed(1)} (CIEDE2000)` +
     (state.item ? ` · sold as “${state.item.sold}”` : "");
   $("tabText").textContent = `${state.type.toUpperCase()} ${state.severity.toFixed(1)}`;
+  $("chart").classList.add("ready");
   $("caption").textContent = `1 = your eyes (simulated: ${TYPE_NAME[state.type]}) · 2 = everyone else`;
 }
 
