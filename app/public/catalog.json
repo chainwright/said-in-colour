@@ -1,0 +1,170 @@
+[
+ {
+  "id": "s01_dusty_rose",
+  "no": "No. 01",
+  "plain": "PINK, MUTED",
+  "sold": "dusty rose",
+  "rgb": [
+   208,
+   182,
+   182
+  ],
+  "thumb": "catalog/s01_dusty_rose_thumb.jpg",
+  "full": "catalog/s01_dusty_rose_full.jpg",
+  "demo": "demo/on_s01_dusty_rose.jpg"
+ },
+ {
+  "id": "s02_sage",
+  "no": "No. 02",
+  "plain": "GREEN, GREYISH",
+  "sold": "sage",
+  "rgb": [
+   147,
+   158,
+   145
+  ],
+  "thumb": "catalog/s02_sage_thumb.jpg",
+  "full": "catalog/s02_sage_full.jpg",
+  "demo": "demo/on_s02_sage.jpg"
+ },
+ {
+  "id": "s03_lavender",
+  "no": "No. 03",
+  "plain": "PURPLE, LIGHT",
+  "sold": "lavender",
+  "rgb": [
+   204,
+   187,
+   209
+  ],
+  "thumb": "catalog/s03_lavender_thumb.jpg",
+  "full": "catalog/s03_lavender_full.jpg",
+  "demo": "demo/on_s03_lavender.jpg"
+ },
+ {
+  "id": "s04_coral",
+  "no": "No. 04",
+  "plain": "ORANGE-PINK, WARM",
+  "sold": "coral",
+  "rgb": [
+   253,
+   167,
+   129
+  ],
+  "thumb": "catalog/s04_coral_thumb.jpg",
+  "full": "catalog/s04_coral_full.jpg",
+  "demo": "demo/on_s04_coral.jpg"
+ },
+ {
+  "id": "s05_burgundy",
+  "no": "No. 05",
+  "plain": "RED, DEEP",
+  "sold": "burgundy",
+  "rgb": [
+   66,
+   16,
+   31
+  ],
+  "thumb": "catalog/s05_burgundy_thumb.jpg",
+  "full": "catalog/s05_burgundy_full.jpg",
+  "demo": "demo/on_s05_burgundy.jpg"
+ },
+ {
+  "id": "s06_olive",
+  "no": "No. 06",
+  "plain": "GREEN, OLIVE",
+  "sold": "olive",
+  "rgb": [
+   95,
+   92,
+   60
+  ],
+  "thumb": "catalog/s06_olive_thumb.jpg",
+  "full": "catalog/s06_olive_full.jpg",
+  "demo": "demo/on_s06_olive.jpg"
+ },
+ {
+  "id": "s07_navy",
+  "no": "No. 07",
+  "plain": "BLUE, VERY DARK",
+  "sold": "navy",
+  "rgb": [
+   36,
+   37,
+   49
+  ],
+  "thumb": "catalog/s07_navy_thumb.jpg",
+  "full": "catalog/s07_navy_full.jpg",
+  "demo": "demo/on_s07_navy.jpg"
+ },
+ {
+  "id": "s08_grey",
+  "no": "No. 08",
+  "plain": "GREY, LIGHT",
+  "sold": "grey",
+  "rgb": [
+   190,
+   191,
+   195
+  ],
+  "thumb": "catalog/s08_grey_thumb.jpg",
+  "full": "catalog/s08_grey_full.jpg",
+  "demo": "demo/on_s08_grey.jpg"
+ },
+ {
+  "id": "s09_white",
+  "no": "No. 09",
+  "plain": "WHITE",
+  "sold": "white",
+  "rgb": [
+   232,
+   231,
+   234
+  ],
+  "thumb": "catalog/s09_white_thumb.jpg",
+  "full": "catalog/s09_white_full.jpg",
+  "demo": "demo/on_s09_white.jpg"
+ },
+ {
+  "id": "s10_light_blue",
+  "no": "No. 10",
+  "plain": "BLUE, PALE",
+  "sold": "light blue",
+  "rgb": [
+   203,
+   210,
+   223
+  ],
+  "thumb": "catalog/s10_light_blue_thumb.jpg",
+  "full": "catalog/s10_light_blue_full.jpg",
+  "demo": "demo/on_s10_light_blue.jpg"
+ },
+ {
+  "id": "s11_cobalt",
+  "no": "No. 11",
+  "plain": "BLUE, STRONG",
+  "sold": "cobalt",
+  "rgb": [
+   24,
+   55,
+   101
+  ],
+  "thumb": "catalog/s11_cobalt_thumb.jpg",
+  "full": "catalog/s11_cobalt_full.jpg",
+  "demo": "demo/on_s11_cobalt.jpg"
+ },
+ {
+  "id": "s12_charcoal",
+  "no": "No. 12",
+  "plain": "GREY, DARK",
+  "sold": "charcoal",
+  "rgb": [
+   81,
+   80,
+   83
+  ],
+  "thumb": "catalog/s12_charcoal_thumb.jpg",
+  "full": "catalog/s12_charcoal_full.jpg",
+  "demo": "demo/on_s12_charcoal.jpg"
+ }
+]

@@ -7,6 +7,8 @@
 import { YouCam } from "../../src/youcam.js";
 
 const MAX_BYTES = 4 * 1024 * 1024;
+// YouCam serves results from its S3 buckets (e.g. yce-us.s3-accelerate.amazonaws.com).
+const RESULT_HOST = /^yce[-\w]*\.s3[-\w.]*\.amazonaws\.com$/;
 
 const json = (statusCode, data) => ({
   statusCode,
@@ -48,6 +50,19 @@ export const handler = async (event) => {
     if (event.httpMethod === "GET" && route === "status") {
       const { feature, id } = event.queryStringParameters || {};
       return json(200, await youcam().status(feature, id));
+    }
+    // The finished render as base64, so the browser can read its pixels for the simulation
+    // (the result URL itself has no CORS headers). The URL comes from YouCam's own task
+    // status, never from the browser, and must be on YouCam's storage host.
+    if (event.httpMethod === "GET" && route === "result") {
+      const { feature, id } = event.queryStringParameters || {};
+      const s = await youcam().status(feature, id);
+      const url = s.results?.url;
+      if (s.status !== "success" || !url) return json(409, { error: "Not ready" });
+      if (!RESULT_HOST.test(new URL(url).hostname)) return json(400, { error: "Unexpected result host" });
+      const r = await fetch(url);
+      if (!r.ok) return json(502, { error: `Result download failed: ${r.status}` });
+      return json(200, { image: Buffer.from(await r.arrayBuffer()).toString("base64") });
     }
     if (event.httpMethod === "GET" && route === "health") {
       return json(200, { ok: true, credit: await youcam().credit() });

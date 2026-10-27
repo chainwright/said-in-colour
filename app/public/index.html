@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Said in Colour: see the shirt the way everyone else does</title>
+<meta name="description" content="A fitting room for men with red-green colour blindness. Try a shirt on, drag the lens, and see what you see and what everyone else sees.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="mark" href="#">SAID IN COLOUR</a>
+  <nav><a href="#case">Shirts</a><a href="#you">Your photo</a><a href="#method">How it works</a></nav>
+</header>
+
+<main>
+  <!-- 1. The exam room -->
+  <section class="room" id="room" aria-label="Try-on with the lens">
+    <figure class="stage" id="stage">
+      <canvas id="base" aria-hidden="true"></canvas>
+      <canvas id="sim" aria-hidden="true"></canvas>
+      <div class="vignette" aria-hidden="true"></div>
+      <svg class="lens" id="lens" viewBox="0 0 220 220" aria-hidden="true">
+        <defs>
+          <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e6eaee"/><stop offset=".35" stop-color="#9aa2aa"/>
+            <stop offset=".6" stop-color="#d4d9de"/><stop offset="1" stop-color="#6d747b"/>
+          </linearGradient>
+          <radialGradient id="glint" cx=".72" cy=".22" r=".35"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="110" cy="110" r="100" fill="url(#glint)"/>
+        <circle cx="110" cy="110" r="103" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="2"/>
+        <circle cx="110" cy="110" r="100" fill="none" stroke="url(#steel)" stroke-width="7"/>
+        <circle cx="110" cy="110" r="96" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="1"/>
+      </svg>
+      <div class="tab" id="tab" aria-hidden="true"><span id="tabText">DEUTAN 1.0</span></div>
+      <button class="lens-handle" id="lensHandle" aria-label="Lens: drag across the shirt, or use the arrow keys. Space flips the whole picture."></button>
+      <figcaption id="caption">1 = your eyes (simulated: deuteranopia) · 2 = everyone else</figcaption>
+    </figure>
+
+    <div class="chart" aria-live="polite">
+      <p class="l1">YOU SEE</p>
+      <p class="l2" id="youWord">STONE</p>
+      <p class="l3">THEY SEE</p>
+      <p class="l4" id="theyWord">ROSE</p>
+      <p class="l5 focus" id="tagline">said in colour</p>
+      <p class="verdict" id="verdict"></p>
+    </div>
+
+    <div class="flip" role="group" aria-label="Whole picture">
+      <button id="flipYou" aria-pressed="false">ONE: YOU</button>
+      <button id="flipLens" aria-pressed="true" class="on">LENS</button>
+      <button id="flipThem" aria-pressed="false">TWO: EVERYONE</button>
+    </div>
+  </section>
+
+  <!-- 2. The trial-lens case -->
+  <section class="case-wrap" id="case" aria-labelledby="caseTitle">
+    <h2 id="caseTitle">PICK A SHIRT</h2>
+    <p class="sub">Tagged by how it reads to you, not how it is sold.</p>
+    <div class="case" id="caseGrid" role="list"></div>
+    <p class="legend"><span class="t trap">▲ TRAP</span> different colour to you and to everyone ·
+      <span class="t careful">◆ CAREFUL</span> noticeably different · <span class="t safe">✓ SAFE</span> reads the same</p>
+  </section>
+
+  <!-- 3. Your photo and your eyes -->
+  <section class="you" id="you" aria-labelledby="youTitle">
+    <h2 id="youTitle">YOUR PHOTO, YOUR EYES</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Which kind?</h3>
+        <label><input type="radio" name="cvd" value="deutan" checked> Green-weak (deutan) — the most common. Not sure? Start here.</label>
+        <label><input type="radio" name="cvd" value="protan"> Red-weak (protan)</label>
+        <label><input type="radio" name="cvd" value="tritan"> Blue-yellow (tritan) — rare</label>
+        <label class="sev">How strong <input type="range" id="sev" min="0.3" max="1" step="0.1" value="1"> <output id="sevOut">1.0</output></label>
+        <p class="note">Strength below 1.0 is an approximation (blended toward normal vision).</p>
+      </div>
+      <div class="card" id="photoCard">
+        <h3>Try it on yourself</h3>
+        <p>A photo from the chest up, standing, facing the camera, shoulders in frame. YouCam puts the shirt on you.</p>
+        <label class="btn"><input type="file" id="photo" accept="image/*" hidden> Choose a photo</label>
+        <p class="status" id="status" role="status"></p>
+        <p class="note">Your photo goes to YouCam only to render the try-on. We store nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Method -->
+  <section class="method" id="method" aria-labelledby="methodTitle">
+    <h2 id="methodTitle">HOW WE KNOW</h2>
+    <div class="cols">
+      <div><h3>The try-on</h3><p>YouCam's AI Clothes (<code>cloth-v4</code>, upper body) puts the shirt on the photo. Everything after that is arithmetic you can check.</p></div>
+      <div><h3>Your view</h3><p>Machado, Oliveira &amp; Fernandes (2009) model, applied in linear RGB to every pixel of the render. It simulates a typical colour-blind eye, not yours exactly.</p></div>
+      <div><h3>The words</h3><p>We measure the shirt on the chest, then name it twice: as everyone sees it and as you do (nearest of 36 menswear colour names by CIEDE2000). Different names and a gap of 8 or more: <b>TRAP</b>. 4 to 8: <b>CAREFUL</b>.</p></div>
+    </div>
+    <p class="fine">Cosmetic shopping aid, not a medical test. The example man and shirts are AI-generated; the try-ons are real YouCam renders.</p>
+  </section>
+</main>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
