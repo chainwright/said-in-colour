@@ -17,7 +17,7 @@ Said in Colour is a fitting room for that moment. It puts the shirt on you, tell
 ## How we used the YouCam API
 | Step | Endpoint | What it gives us |
 |---|---|---|
-| Try-on | `POST /s2s/v2.0/task/cloth-v4` with `garment_category: upper_body`, then `GET …/task/cloth-v4/{id}` | The shirt on his own photo — 2 units a render |
+| Try-on | `POST /s2s/v2.0/task/cloth-v4` with `garment_category: upper_body`, then `GET …/task/cloth-v4/{id}` | The shirt on your own photo — 2 units a render |
 | Plumbing | `POST /s2s/v2.0/file`, `GET /s2s/v1.0/client/credit` | Uploads, and a budget guard that pauses live calls under 150 units |
 
 AI Clothes is the whole point of the demo, used against type. Most virtual try-ons exist to tell you that you look good. This one uses the exact same render to tell you the truth about a colour — twice, side by side. Everything after the render is arithmetic you can check, with no opinion from a model.
