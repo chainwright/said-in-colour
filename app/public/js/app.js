@@ -107,21 +107,36 @@ function load(src) {
 async function pick(item, { scroll = true } = {}) {
   state.item = item;
   document.querySelectorAll(".slot").forEach((s) => s.setAttribute("aria-current", s.dataset.id === item.id));
+  if ($("ticket")) ticket(item);
   draw(await load(item.demo));
   if (scroll) $("room").scrollIntoView({ behavior: "smooth" });
 }
+// Well centres measured on the case photo (mockups/case/wells.json), snapped to the grid.
+const COLS = [19.6, 39.5, 59.5, 79.2], ROWS = [23.4, 50.3, 77.6];
+const TIERS = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE" };
+function ticket(it) {
+  const r = readColour(it.rgb, state.type, state.severity);
+  $("ticket").innerHTML = `<span class="no">${it.no}</span><span class="plain">${it.plain}</span>
+    <span class="row">sold as <b>${it.sold}</b> · reads to you as <b>${r.you}</b></span>
+    <span class="tag big ${r.level}">${TIERS[r.level]}</span>`;
+}
 function buildCase() {
-  const tiers = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE" };
-  $("caseGrid").innerHTML = `<div class="case-inner">${state.catalog.map((it) => {
+  $("caseGrid").innerHTML = state.catalog.map((it, i) => {
     const r = readColour(it.rgb, state.type, state.severity);
-    return `<button class="slot" role="listitem" data-id="${it.id}" aria-label="${it.plain}, sold as ${it.sold}: ${r.level}">
+    return `<button class="slot" role="listitem" data-id="${it.id}" style="left:${COLS[i % 4]}%;top:${ROWS[i >> 2]}%"
+      aria-label="${it.no}, ${it.plain}, sold as ${it.sold}, reads to you as ${r.you}: ${r.level}">
       <span class="glass" style="background-image:url(${it.thumb})"></span>
-      <span class="tag ${r.level}">${tiers[r.level]}</span>
-      <span class="ticket">${it.no} · ${it.plain}<span class="sold">sold as: ${it.sold} · reads to you as: ${r.you}</span></span>
+      <span class="tag ${r.level}">${TIERS[r.level]}</span><span class="num">${it.no.replace("No. ", "")}</span>
     </button>`;
-  }).join("")}</div>`;
-  document.querySelectorAll(".slot").forEach((s) => (s.onclick = () => pick(state.catalog.find((c) => c.id === s.dataset.id))));
+  }).join("");
+  document.querySelectorAll(".slot").forEach((s) => {
+    const it = state.catalog.find((c) => c.id === s.dataset.id);
+    s.onclick = () => pick(it);
+    s.onmouseenter = s.onfocus = () => ticket(it);
+    s.onmouseleave = s.onblur = () => ticket(state.item || state.catalog[0]);
+  });
   if (state.item) document.querySelector(`.slot[data-id="${state.item.id}"]`)?.setAttribute("aria-current", "true");
+  ticket(state.item || state.catalog[0]);
 }
 
 // ---------- your eyes ----------

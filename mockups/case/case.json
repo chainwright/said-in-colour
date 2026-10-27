@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-27T17:17:42.49928Z",
+    "display_name": "Nano Banana Pro",
+    "id": "5f70d482-bdaf-4cfc-9b72-55c7f5993090",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_171742_5f70d482-bdaf-4cfc-9b72-55c7f5993090_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 3072,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Product photograph shot perfectly straight from above (orthographic top-down, no perspective), of an open vintage optician's trial lens case: a rectangular dark walnut wood frame with a thin brass-free wooden edge, lined with deep navy blue velvet, containing exactly 12 empty round lens wells arranged in a precise grid of 4 columns and 3 rows, evenly spaced, each well a shallow round recess in the velvet the same size, no lenses in the wells, no labels, no text, no logo. The case fills the frame with a small dark margin around it. Soft even overhead light with gentle falloff, realistic wood grain and velvet texture, sharp, high detail. Background around the case: near-black #0B0F14.",
+      "resolution": "4k",
+      "surface": null,
+      "width": 5504
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_171742_5f70d482-bdaf-4cfc-9b72-55c7f5993090.png",
+    "status": "completed"
+  }
+]
