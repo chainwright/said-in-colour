@@ -28,9 +28,12 @@ export function nameOf(rgb) {
   return best;
 }
 
-// How a garment colour reads to him vs to everyone else.
-// trap: different names AND a real gap (ΔE ≥ TRAP_DE) — the shirt he'd buy as one colour is another to everyone.
+// How a garment colour reads to him vs to everyone else, in three honest tiers:
+//   trap    — different names AND a big shift (ΔE ≥ TRAP_DE): he'd buy it as one colour, everyone sees another;
+//   careful — different names and a noticeable shift (CAREFUL_DE ≤ ΔE < TRAP_DE), e.g. sage that reads as grey;
+//   safe    — same name, or a shift too small to matter (a name boundary is not a perception difference).
 export const TRAP_DE = 8;
+export const CAREFUL_DE = 4;
 export function readColour(rgb, type = "deutan", severity = 1) {
   const his = simulateRgb(rgb, type, severity);
   const theirs = nameOf(rgb);
@@ -43,5 +46,6 @@ export function readColour(rgb, type = "deutan", severity = 1) {
     you: yours.name,
     gap,
     trap: theirs.name !== yours.name && gap >= TRAP_DE,
+    level: theirs.name === yours.name || gap < CAREFUL_DE ? "safe" : gap >= TRAP_DE ? "trap" : "careful",
   };
 }

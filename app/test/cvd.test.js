@@ -53,3 +53,11 @@ test("nameOf finds exact swatches", () => {
   assert.equal(nameOf([31, 42, 68]).name, "navy");
   assert.equal(nameOf([185, 138, 140]).name, "dusty rose");
 });
+
+test("catalogue tiers on the real generated shirts (centre patches, catalog/centre_rgb.json)", async () => {
+  const c = JSON.parse(await (await import("node:fs/promises")).readFile(new URL("../../catalog/centre_rgb.json", import.meta.url)));
+  const lvl = Object.fromEntries(Object.entries(c).map(([k, v]) => [k, readColour(v).level]));
+  for (const k of ["s01_dusty_rose", "s03_lavender", "s04_coral", "s05_burgundy"]) assert.equal(lvl[k], "trap", k);
+  assert.equal(lvl.s02_sage, "careful");
+  for (const k of ["s07_navy", "s08_grey", "s09_white", "s10_light_blue", "s12_charcoal"]) assert.equal(lvl[k], "safe", k);
+});

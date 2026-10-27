@@ -1,0 +1,24 @@
+[
+  {
+    "created_at": "2026-10-27T16:21:42.520721Z",
+    "display_name": "FLUX.2",
+    "id": "d1ac35d2-a7b7-4732-a7cb-45a0356b5a4f",
+    "job_type": "flux_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162142_d1ac35d2-a7b7-4732-a7cb-45a0356b5a4f_min.webp",
+    "params": {
+      "aspect_ratio": "3:4",
+      "batch_size": 1,
+      "cfg": null,
+      "height": 1920,
+      "input_images": [],
+      "model": "pro",
+      "prompt": "E-commerce product photo of a men's long-sleeve oxford button-down shirt in lavender (soft light purple), front view, laid flat, centered on a plain white background, soft even studio light, true-to-life colour, no text, no logo, no label, no props",
+      "resolution": "2k",
+      "seed": 792439,
+      "steps": null,
+      "width": 1440
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162142_d1ac35d2-a7b7-4732-a7cb-45a0356b5a4f.png",
+    "status": "completed"
+  }
+]
