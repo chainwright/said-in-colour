@@ -70,8 +70,9 @@
   <!-- 3. Your photo and your eyes -->
   <section class="you" id="you" aria-labelledby="youTitle">
     <h2 id="youTitle">YOUR PHOTO, YOUR EYES</h2>
-    <div class="cards">
+    <div class="cards rx">
       <div class="card">
+        <p class="rx-head">PATIENT CARD <span>No. 0001 · SAID IN COLOUR</span></p>
         <h3>Which kind?</h3>
         <label><input type="radio" name="cvd" value="deutan" checked> Green-weak (deutan) — the most common. Not sure? Start here.</label>
         <label><input type="radio" name="cvd" value="protan"> Red-weak (protan)</label>
@@ -80,6 +81,7 @@
         <p class="note">Strength below 1.0 is an approximation (blended toward normal vision).</p>
       </div>
       <div class="card" id="photoCard">
+        <p class="rx-head">TRY-ON <span>YOUCAM AI CLOTHES · cloth-v4</span></p>
         <h3>Try it on yourself</h3>
         <p>A photo from the chest up, standing, facing the camera, shoulders in frame. YouCam puts the shirt on you.</p>
         <label class="btn"><input type="file" id="photo" accept="image/*" hidden> Choose a photo</label>
@@ -93,9 +95,13 @@
   <section class="method" id="method" aria-labelledby="methodTitle">
     <h2 id="methodTitle">HOW WE KNOW</h2>
     <div class="cols">
-      <div><h3>The try-on</h3><p>YouCam's AI Clothes (<code>cloth-v4</code>, upper body) puts the shirt on the photo. Everything after that is arithmetic you can check.</p></div>
-      <div><h3>Your view</h3><p>Machado, Oliveira &amp; Fernandes (2009) model, applied in linear RGB to every pixel of the render. It simulates a typical colour-blind eye, not yours exactly.</p></div>
-      <div><h3>The words</h3><p>We measure the shirt on the chest, then name it twice: as everyone sees it and as you do (nearest of 36 menswear colour names by CIEDE2000). Different names and a gap of 8 or more: <b>TRAP</b>. 4 to 8: <b>CAREFUL</b>.</p></div>
+      <div><span class="step">1</span><h3>The try-on</h3><p>YouCam's AI Clothes (<code>cloth-v4</code>, upper body) puts the shirt on the photo. Everything after that is arithmetic you can check.</p></div>
+      <div><span class="step">2</span><h3>Your view</h3><p>Machado, Oliveira &amp; Fernandes (2009) model, applied in linear RGB to every pixel of the render. It simulates a typical colour-blind eye, not yours exactly.</p>
+        <pre class="matrix" aria-label="Machado deuteranopia matrix">deutan 1.0
+ 0.367  0.861 -0.228
+ 0.280  0.673  0.047
+-0.012  0.043  0.969</pre></div>
+      <div><span class="step">3</span><h3>The words</h3><p>We measure the shirt on the chest, then name it twice: as everyone sees it and as you do (nearest of 36 menswear colour names by CIEDE2000). Different names and a gap of 8 or more: <b>TRAP</b>. 4 to 8: <b>CAREFUL</b>.</p></div>
     </div>
     <p class="fine">Cosmetic shopping aid, not a medical test. The example man and shirts are AI-generated; the try-ons are real YouCam renders.</p>
   </section>
