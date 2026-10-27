@@ -15,6 +15,8 @@ def level(f, tail):
 for i, sc in enumerate(L):
     for j, s in enumerate(sc):
         raw, out = f"{D}/raw_{i:02d}_{j}.mp3", f"{D}/c{i:02d}_{j}.wav"
+        if os.path.exists(out):          # an approved take is already in place: keep it, don't re-roll the voice
+            continue
         for seed in (11, 23, 37, 51, 77):
             r = requests.post(f"https://api.elevenlabs.io/v1/text-to-speech/{V}", headers={'xi-api-key': K}, timeout=90,
                               json={'text': s, 'model_id': 'eleven_multilingual_v2', 'seed': seed,

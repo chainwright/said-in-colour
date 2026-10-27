@@ -1,35 +1,36 @@
 [
  [
-  "To about one man in twelve, this shirt is grey.",
+  "For millions of colour-blind people, this shirt is grey.",
   "To everyone else, it's dusty rose."
  ],
  [
-  "Red-green colour blindness doesn't make the world grey.",
-  "It makes some colours collapse into others.",
-  "And shops name their colours sage, stone and dusty rose, which tells him nothing."
+  "That's about one man in twelve, and one woman in two hundred.",
+  "Their world isn't grey. Some colours just collapse into others.",
+  "So they ask someone to choose, because labels like sage or dusty rose tell them nothing."
  ],
  [
-  "Said in Colour puts the shirt on him with YouCam's AI Clothes.",
+  "Said in Colour puts the shirt on you with YouCam's AI Clothes.",
   "Then it shows the same render twice.",
-  "Inside the lens is what he sees.",
+  "Inside the lens is what you see.",
   "Outside is what everyone else sees."
  ],
  [
   "Every shirt in the case carries a tag worked out from its measured colour.",
-  "Trap means he and everyone else would call it by different names.",
-  "Navy reads the same to both."
+  "Trap means you and everyone else would call it by different names.",
+  "Navy reads the same to both. That one, you can wear without asking."
  ],
  [
-  "He picks the kind of colour blindness he has, and how strong it is.",
+  "You pick the kind of colour blindness you have, and how strong it is.",
   "Milder forms are an approximation, and the app says so."
  ],
  [
-  "With his own photo, YouCam puts the shirt on him in about twenty seconds, and the lens works the same way."
+  "With your own photo, YouCam puts the shirt on you in about twenty seconds, and the lens works the same way."
  ],
  [
   "The simulation is a published model from 2009, applied to every pixel.",
   "The colour names are matched by a standard colour-difference formula.",
   "It's a shopping aid, not a medical test.",
+  "So the next time you get dressed, you don't have to ask anyone.",
   "Said in Colour.",
   "Buy the shirt you think you're buying."
  ]

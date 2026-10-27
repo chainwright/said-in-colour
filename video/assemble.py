@@ -12,7 +12,7 @@ L = json.load(open(f"{D}/vo/lines.json"))
 LEAD, GAP, TAIL = 0.7, 1.1, 1.0
 NOTE_SCENES = {0, 1, 2, 3, 4, 5}
 WAIT_SECS = 1.5      # s5: YouCam's ~20 s render wait is squeezed to about this, labelled; the rest is real time
-CARD_LINE = 3        # s6: the end card fades in as this sentence starts ("Said in Colour.")
+CARD_LINE = 4        # s6: the end card fades in as this sentence starts ("Said in Colour.")
 GEORGIA = "/System/Library/Fonts/Supplemental/Georgia.ttf"
 ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
 BG = (11, 15, 20)
@@ -53,9 +53,12 @@ for i, sc in enumerate(L):
     clips = [f"{D}/vo/c{i:02d}_{j}.wav" for j in range(len(sc))]
     vo_len = LEAD + sum(dur(c) for c in clips) + GAP * (len(clips) - 1) + TAIL
     src = f"{D}/scenes/s{i}.mp4"
+    edit = f"{D}/scenes/s{i}_edit.mp4"   # a cut made from recorded footage (s6: method, then the navy shot from s3)
     # The recorder repeats the last frame in its concat list, which doubles the final hold in the mp4; the real
     # length is the sum of the frame durations it wrote.
     recorded = sum(float(l.split()[1]) for l in open(f"{D}/frames/s{i}/list.txt") if l.startswith("duration"))
+    if os.path.exists(edit):
+        src = edit; recorded = dur(edit)
     length = max(min(dur(src), recorded), vo_len)
     out = f"{B}/v{i}.mp4"
     rec_len = min(dur(src), recorded)
