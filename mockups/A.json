@@ -1,0 +1,34 @@
+[
+  {
+    "created_at": "2026-10-27T16:26:02.241114Z",
+    "display_name": "Nano Banana Pro",
+    "id": "89893648-ab29-40b6-abbe-3601fb2bf028",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162602_89893648-ab29-40b6-abbe-3601fb2bf028_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "1fb91d08-f45b-43c2-929d-6e1d50d75778",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/1fb91d08-f45b-43c2-929d-6e1d50d75778.jpg"
+        },
+        {
+          "id": "a2157164-0bf8-4f8f-bda5-36cbf56ee9b9",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/a2157164-0bf8-4f8f-bda5-36cbf56ee9b9.jpg"
+        }
+      ],
+      "prompt": "Website hero screen, flat UI design, 16:9. Background: flat cool blue-white #EEF3F4. Left 60%: the photo image 1 in a plain rectangle, no rounded corners. Over the shirt is a hard-edged circular lens about 38% of the photo's height, with a thin #0D1117 ring and two small tick marks. Inside the circle, show the matching area of image 2 so the shirt reads khaki inside the circle and pink outside. Under the photo, small text in #0D1117: \"1 = your eyes (deutan, simulated) · 2 = everyone else\". Right 40%: an optician's eye chart in black capital letters, Sloan-style, each line smaller than the one above: \"YOU SEE\" / \"STONE\" / \"THEY SEE\" / \"ROSE\" / \"said in colour\". Top-left wordmark \"Said in Colour\" in small black capitals. Bottom right: a two-segment pill, \"ONE: YOU\" / \"TWO: EVERYONE\", outlined in #0D1117, with the first segment filled #0072B2 and white text. A thin black line drawing of a phoropter sits faintly in the top-right corner. No gradients, no shadows, no glass blur, no cream, no gold. Use the two supplied photos exactly as they are (image 1 = everyone else's view, the real photo; image 2 = the colour-blind man's view): do not alter the man's face, body or shirt; no extra people; no logos; no brand names; all text spelled exactly as given.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162602_89893648-ab29-40b6-abbe-3601fb2bf028.png",
+    "status": "completed"
+  }
+]

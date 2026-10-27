@@ -1,0 +1,34 @@
+[
+  {
+    "created_at": "2026-10-27T16:29:03.025285Z",
+    "display_name": "Nano Banana Pro",
+    "id": "42a0e889-0833-4995-9315-35cbfff55367",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162903_42a0e889-0833-4995-9315-35cbfff55367_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "540d88b3-1304-4983-bf78-ea16f190c105",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/540d88b3-1304-4983-bf78-ea16f190c105.jpg"
+        },
+        {
+          "id": "723bec71-c973-4eeb-b989-7a743ae2bb31",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/723bec71-c973-4eeb-b989-7a743ae2bb31.jpg"
+        }
+      ],
+      "prompt": "Website hero screen, 16:9. Background: flat navy cloth #17233A with a very subtle woven texture. Centre: one large card with zig-zag pinked edges, hanging from a small black clip, split by a vertical fold into two panels. LEFT panel = image 2 exactly (the khaki-looking shirt) with a small label in the bottom-left corner reading exactly 'YOU SEE'. RIGHT panel = image 1 exactly (the pink shirt) with a small label in the bottom-left corner reading exactly 'EVERYONE ELSE SEES'. Soft crease shadow on the fold. Under the card is a chalk-white #F1F1EA ticket with zig-zag edges in a condensed bold sans, all caps, three lines: 'No. 12', 'SOLD AS: DUSTY ROSE', 'READS TO YOU AS: STONE'. A hand-drawn yellow #F0E442 chalk circle around the word STONE, and a small chalk triangle beside it with the word 'TRAP'. Top-left wordmark 'Said in Colour' in condensed chalk-white type. Two smaller pinked swatch cards hang at the left and right edges, partly cropped. Flat lighting, no gold, no metallic, no gradients. Use the two supplied photos exactly as they are: do not alter the man's face, body or shirt; no extra people; no logos; no brand names; all text spelled exactly as given.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162903_42a0e889-0833-4995-9315-35cbfff55367.png",
+    "status": "completed"
+  }
+]

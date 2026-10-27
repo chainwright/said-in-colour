@@ -1,0 +1,23 @@
+[
+  {
+    "created_at": "2026-10-27T16:33:13.098339Z",
+    "display_name": "Nano Banana Pro",
+    "id": "050716db-d289-4100-b523-b0b8ce05e78d",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_163313_050716db-d289-4100-b523-b0b8ce05e78d_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [],
+      "prompt": "Award-winning website section, 16:9, premium product shot style. Background deep ink #0B0F14. Centre: an open vintage optician's trial lens case seen from above at a slight angle, dark walnut wood frame lined with deep navy velvet, holding a grid of 12 round trial lenses in steel rims with small handle tabs. Each lens is filled with a flat fabric colour, left to right, top to bottom: dusty rose, sage green, lavender, coral, burgundy, olive, navy, grey, white, light sky blue, cobalt blue, charcoal. Next to each lens a tiny printed ivory card with a number and a plain word, for example 'No. 01 PINK, MUTED'. Four of the lenses (dusty rose, lavender, coral, burgundy) have a small cool white triangle tag with the word 'TRAP'; navy, grey, white and charcoal have a small tag 'SAFE' with a check mark. One lens (dusty rose) is lifted out of the case by its tab and hovers above it, catching a highlight. Headline at the top in large cool white #EEF3F4 condensed capitals: 'PICK A SHIRT'. Small line under it: 'Tagged by how it reads to you, not how it is sold.' Soft directional light, realistic materials, shallow depth of field. Use the supplied photos exactly as they are: do not alter the man's face, body or shirt; no extra people; no logos; no brand names; all text spelled exactly as given; no gold, no cream, no purple, no gradients behind text.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_163313_050716db-d289-4100-b523-b0b8ce05e78d.png",
+    "status": "completed"
+  }
+]

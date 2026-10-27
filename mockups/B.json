@@ -1,0 +1,34 @@
+[
+  {
+    "created_at": "2026-10-27T16:26:00.503217Z",
+    "display_name": "Nano Banana Pro",
+    "id": "9c4d6089-d9d0-4235-bd4f-bff6190e7c14",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162600_9c4d6089-d9d0-4235-bd4f-bff6190e7c14_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "d37ce6c8-e544-4bda-a43d-2e797f6c8783",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/d37ce6c8-e544-4bda-a43d-2e797f6c8783.jpg"
+        },
+        {
+          "id": "f8d4d273-7f52-405e-91d8-724a0c3b8009",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/f8d4d273-7f52-405e-91d8-724a0c3b8009.jpg"
+        }
+      ],
+      "prompt": "Website hero screen, 16:9. Background: flat navy cloth #17233A with a very subtle woven texture. Centre: one large card with zig-zag pinked edges, hanging from a small black clip. The card shows image 2 on its front face; its right third is folded back to reveal image 1 on the underside, with a soft crease shadow. Under the card is a chalk-white #F1F1EA ticket in a condensed bold sans, all caps: \"No. 12\", \"SOLD AS: DUSTY ROSE\", \"READS TO YOU AS: STONE\". A hand-drawn yellow #F0E442 chalk circle surrounds \"STONE\", and a chalk triangle beside it carries the word \"TRAP\". Top-left wordmark \"Said in Colour\" in condensed chalk-white capitals. Small mono labels on the card faces: \"front: you\" and \"underside: everyone else\". Two smaller swatch cards hang at the edges, partly cropped. Flat lighting, no gold, no metallic, no gradients. Use the two supplied photos exactly as they are (image 1 = everyone else's view, the real photo; image 2 = the colour-blind man's view): do not alter the man's face, body or shirt; no extra people; no logos; no brand names; all text spelled exactly as given.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162600_9c4d6089-d9d0-4235-bd4f-bff6190e7c14.png",
+    "status": "completed"
+  }
+]

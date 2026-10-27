@@ -1,0 +1,34 @@
+[
+  {
+    "created_at": "2026-10-27T16:26:02.146205Z",
+    "display_name": "Nano Banana Pro",
+    "id": "c477772d-f3bf-46a8-8827-62a5199e15d3",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162602_c477772d-f3bf-46a8-8827-62a5199e15d3_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "0bf2cf02-987d-4219-8c63-884cebc39135",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/0bf2cf02-987d-4219-8c63-884cebc39135.jpg"
+        },
+        {
+          "id": "8f4e49d1-76fb-48d0-bb10-7b4ab4835920",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/8f4e49d1-76fb-48d0-bb10-7b4ab4835920.jpg"
+        }
+      ],
+      "prompt": "Website hero screen, 16:9. Background: flat neutral grey #B4B5B1. Left: a large circular dot plate made of many round dots in different sizes. The word \"ROSE\" is formed by dusty-pink dots #C98A8F among khaki dots #A89C80 and muted grey dots. Right: black #0B0B0C headline in a very large, bold, highly legible sans: \"Can't read the word in the circle? It says ROSE.\" with a smaller line under it: \"That's the shirt you nearly bought.\" Below the headline is a white card holding the photo split down the middle: the left half is image 2 labelled \"you\", the right half is image 1 labelled \"everyone else\", with a thin black seam. A cobalt #1A3DB8 text button reads \"Try a shirt on\". The wordmark \"Said in Colour\" sits small in the top-left. Flat, no gradients, no shadows, no purple, no glass. Use the two supplied photos exactly as they are (image 1 = everyone else's view, the real photo; image 2 = the colour-blind man's view): do not alter the man's face, body or shirt; no extra people; no logos; no brand names; all text spelled exactly as given.",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_162602_c477772d-f3bf-46a8-8827-62a5199e15d3.png",
+    "status": "completed"
+  }
+]
