@@ -1,0 +1,24 @@
+[
+  {
+    "created_at": "2026-10-27T16:14:34.466715Z",
+    "display_name": "FLUX.2",
+    "id": "c58dd09b-0bc2-41cd-b830-fa8a9be6f6e7",
+    "job_type": "flux_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_c58dd09b-0bc2-41cd-b830-fa8a9be6f6e7_min.webp",
+    "params": {
+      "aspect_ratio": "3:4",
+      "batch_size": 1,
+      "cfg": null,
+      "height": 1920,
+      "input_images": [],
+      "model": "pro",
+      "prompt": "E-commerce product photo of a men's long-sleeve oxford button-down shirt in medium cool grey, front view, laid flat, centered on a plain white background, soft even studio light, no text, no logo, no label",
+      "resolution": "2k",
+      "seed": 75319,
+      "steps": null,
+      "width": 1440
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_c58dd09b-0bc2-41cd-b830-fa8a9be6f6e7.png",
+    "status": "completed"
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "created_at": "2026-10-27T16:14:34.474722Z",
+    "display_name": "FLUX.2",
+    "id": "ec3318c1-db6c-4835-91e2-c26ccc3f5daa",
+    "job_type": "flux_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_ec3318c1-db6c-4835-91e2-c26ccc3f5daa_min.webp",
+    "params": {
+      "aspect_ratio": "3:4",
+      "batch_size": 1,
+      "cfg": null,
+      "height": 1920,
+      "input_images": [],
+      "model": "pro",
+      "prompt": "E-commerce product photo of a men's long-sleeve oxford button-down shirt in dusty rose (muted greyish pink), front view, laid flat, centered on a plain white background, soft even studio light, no text, no logo, no label",
+      "resolution": "2k",
+      "seed": 45821,
+      "steps": null,
+      "width": 1440
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_ec3318c1-db6c-4835-91e2-c26ccc3f5daa.png",
+    "status": "completed"
+  }
+]

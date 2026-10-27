@@ -1,0 +1,24 @@
+[
+  {
+    "created_at": "2026-10-27T16:14:34.539196Z",
+    "display_name": "FLUX.2",
+    "id": "1b53fc25-d952-4bd7-a4b5-ac9a018ff2eb",
+    "job_type": "flux_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_1b53fc25-d952-4bd7-a4b5-ac9a018ff2eb_min.webp",
+    "params": {
+      "aspect_ratio": "3:4",
+      "batch_size": 1,
+      "cfg": null,
+      "height": 1920,
+      "input_images": [],
+      "model": "pro",
+      "prompt": "Realistic photo of a fictional man in his early 30s, front view, upper body from the waist up, standing, facing the camera, plain light grey wall background, wearing a plain white crew-neck t-shirt, soft natural daylight, sharp, no text, no logo",
+      "resolution": "2k",
+      "seed": 151788,
+      "steps": null,
+      "width": 1440
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E3g0sfvNBEif3PtQmK1TJCd2Jw/hf_20261027_161434_1b53fc25-d952-4bd7-a4b5-ac9a018ff2eb.png",
+    "status": "completed"
+  }
+]
