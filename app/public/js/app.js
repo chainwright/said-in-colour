@@ -14,6 +14,7 @@ function draw(img) {
   base.getContext("2d").drawImage(img, 0, 0);
   simulate();
   layout();
+  stage.classList.add("ready");
 }
 
 function simulate() {

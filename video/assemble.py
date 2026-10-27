@@ -11,8 +11,8 @@ os.makedirs(B, exist_ok=True)
 L = json.load(open(f"{D}/vo/lines.json"))
 LEAD, GAP, TAIL = 0.7, 1.1, 1.0
 NOTE_SCENES = {0, 1, 2, 3, 4, 5}
-TRIM = {0: 1.2}      # s0 starts with the previous page state for ~1 s
-SPEED = {5: 2.5}     # the live try-on waits ~20 s for YouCam; shown sped up and labelled
+WAIT_SECS = 1.5      # s5: YouCam's ~20 s render wait is squeezed to about this, labelled; the rest is real time
+CARD_LINE = 3        # s6: the end card fades in as this sentence starts ("Said in Colour.")
 GEORGIA = "/System/Library/Fonts/Supplemental/Georgia.ttf"
 ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
 BG = (11, 15, 20)
@@ -30,11 +30,10 @@ def run(*a):
 # overlays, drawn once
 note = Image.new("RGBA", (1920, 1080), (0, 0, 0, 0))
 d = ImageDraw.Draw(note)
-d.text((1880, 1040), "The men and shirts are AI-generated. The try-ons are real YouCam renders.",
-       font=ImageFont.truetype(ARIAL, 22), fill=(170, 176, 182, 255), anchor="rs")
+# bottom centre: clear of the caption (bottom left) and the ONE / LENS / TWO buttons (bottom right)
+d.text((960, 1046), "The men and shirts are AI-generated. The try-ons are real YouCam renders.",
+       font=ImageFont.truetype(ARIAL, 22), fill=(170, 176, 182, 255), anchor="ms")
 note.save(f"{B}/note.png")
-fast = note.copy(); ImageDraw.Draw(fast).text((40, 1040), "sped up 2.5×", font=ImageFont.truetype(ARIAL, 26), fill=(238, 243, 244, 255), anchor="ls")
-fast.save(f"{B}/note_fast.png")
 
 card = Image.new("RGB", (1920, 1080), BG)
 d = ImageDraw.Draw(card)
@@ -59,19 +58,36 @@ for i, sc in enumerate(L):
     recorded = sum(float(l.split()[1]) for l in open(f"{D}/frames/s{i}/list.txt") if l.startswith("duration"))
     length = max(min(dur(src), recorded), vo_len)
     out = f"{B}/v{i}.mp4"
-    if i == len(L) - 1:  # the end card fades in over the last scene
-        length = max(vo_len, 7.0)
+    rec_len = min(dur(src), recorded)
+    if i == len(L) - 1:  # the end card fades in over the last scene, as "Said in Colour." starts
+        length = max(vo_len, rec_len)
+        card_at = LEAD + sum(dur(c) for c in clips[:CARD_LINE]) + GAP * CARD_LINE - 0.4
         run("-i", src, "-loop", "1", "-t", f"{length:.3f}", "-i", f"{B}/card.png", "-filter_complex",
             f"[0:v]tpad=stop_mode=clone:stop_duration=30,trim=0:{length:.3f},setpts=PTS-STARTPTS[a];"
-            f"[1:v]format=yuva420p,fade=t=in:st=1.2:d=1.2:alpha=1[c];[a][c]overlay=0:0,fps=30,format=yuv420p",
+            f"[1:v]format=yuva420p,fade=t=in:st={card_at:.2f}:d=1.0:alpha=1[c];[a][c]overlay=0:0,fps=30,format=yuv420p",
+            "-t", f"{length:.3f}", "-an", "-c:v", "libx264", "-crf", "18", out)
+    elif os.path.exists(mk := f"{D}/frames/s{i}/marks.json") and "wait_from" in (m := json.load(open(mk))):
+        # real time, then the render wait squeezed (and labelled), then real time again
+        a, b = m["wait_from"], m["wait_to"]
+        sp = max(1.0, (b - a) / WAIT_SECS)
+        lab = Image.open(f"{B}/note.png").copy()
+        ImageDraw.Draw(lab).text((960, 130), f"waiting for YouCam, sped up {sp:.0f}×", font=ImageFont.truetype(ARIAL, 28),
+                                 fill=(238, 243, 244, 255), anchor="ms")
+        lab.save(f"{B}/note_fast.png")
+        mid = (b - a) / sp
+        length = max(a + mid + (rec_len - b), vo_len)
+        run("-i", src, "-i", f"{B}/note.png", "-i", f"{B}/note_fast.png", "-filter_complex",
+            f"[0:v]split=3[x0][x1][x2];[x0]trim=0:{a:.3f},setpts=PTS-STARTPTS[p0];"
+            f"[x1]trim={a:.3f}:{b:.3f},setpts=(PTS-STARTPTS)/{sp:.3f}[p1];"
+            f"[x2]trim=start={b:.3f},setpts=PTS-STARTPTS[p2];[p0][p1][p2]concat=n=3:v=1[v0];"
+            f"[v0]tpad=stop_mode=clone:stop_duration=30,trim=0:{length:.3f},setpts=PTS-STARTPTS[v1];"
+            f"[v1][1:v]overlay=0:0[v2];[v2][2:v]overlay=0:0:enable='between(t,{a:.3f},{a + mid:.3f})',fps=30,format=yuv420p",
             "-t", f"{length:.3f}", "-an", "-c:v", "libx264", "-crf", "18", out)
     else:
         ov = f"[v];[v][1:v]overlay=0:0" if i in NOTE_SCENES else ""
-        t0, sp = TRIM.get(i, 0), SPEED.get(i, 1)
-        rec_len = (min(dur(src), recorded) - t0) / sp
         length = max(rec_len, vo_len)
-        run("-i", src, "-i", f"{B}/{'note_fast' if i in SPEED else 'note'}.png", "-filter_complex",
-            f"[0:v]trim=start={t0},setpts=(PTS-STARTPTS)/{sp},tpad=stop_mode=clone:stop_duration=30,trim=0:{length:.3f},setpts=PTS-STARTPTS{ov},fps=30,format=yuv420p",
+        run("-i", src, "-i", f"{B}/note.png", "-filter_complex",
+            f"[0:v]tpad=stop_mode=clone:stop_duration=30,trim=0:{length:.3f},setpts=PTS-STARTPTS{ov},fps=30,format=yuv420p",
             "-t", f"{length:.3f}", "-an", "-c:v", "libx264", "-crf", "18", out)
     parts.append(out)
     at = t + LEAD

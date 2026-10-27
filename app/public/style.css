@@ -34,6 +34,9 @@ a { color: var(--light); }
     radial-gradient(70% 62% at 50% 60%, transparent 58%, rgba(11,15,20,.55) 80%, var(--room) 100%),
     linear-gradient(90deg, transparent 72%, var(--room) 100%),
     linear-gradient(180deg, rgba(11,15,20,.55) 0%, transparent 22%); }
+/* nothing on the stage until the first render is drawn: no bare ring, no empty canvas */
+.stage canvas, .stage .lens, .stage .tab { transition: opacity .5s ease-out; }
+.stage:not(.ready) canvas, .stage:not(.ready) .lens, .stage:not(.ready) .tab, .stage:not(.ready) .vignette { opacity: 0; }
 .lens { position: absolute; width: calc(var(--r) * 2.2); height: calc(var(--r) * 2.2); left: var(--lx); top: var(--ly); transform: translate(-50%, -50%); pointer-events: none; transition: opacity .25s; }
 .tab { position: absolute; left: var(--lx); top: var(--ly); transform: translate(calc(var(--r) * .62), calc(var(--r) * .62)) rotate(45deg); transform-origin: 0 0;
   width: calc(var(--r) * .75); height: calc(var(--r) * .26); border-radius: 0 999px 999px 0;
