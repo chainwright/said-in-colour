@@ -12,3 +12,4 @@ We made it for the YouCam API hackathon on Devpost. The demo video and the live 
 First comment:
 Demo (1:45): https://youtu.be/pWkeAI_ZNUU
 Try it: https://said-in-colour.netlify.app
+More on this build and our other projects: https://automate-ai.live/#p-said-in-colour
