@@ -20,7 +20,7 @@ a { color: var(--light); }
 .top nav a:hover { color: var(--light); }
 
 /* 1. Exam room */
-.room { position: relative; min-height: 100vh; display: grid; grid-template-columns: 58fr 42fr; align-items: end; overflow: hidden; }
+.room { position: relative; min-height: 100vh; background: var(--room); display: grid; grid-template-columns: 58fr 42fr; align-items: end; overflow: hidden; }
 .stage { position: relative; margin: 0; height: 100vh; touch-action: none; }
 .stage canvas { position: absolute; left: 0; bottom: 0; height: 100%; width: auto; max-width: none; }
 #sim { clip-path: circle(var(--r, 0px) at var(--x, 50%) var(--y, 60%)); filter: drop-shadow(0 10px 24px rgba(0,0,0,.45)); }
