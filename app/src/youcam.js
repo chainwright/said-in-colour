@@ -5,12 +5,8 @@ const HOST = "https://yce-api-01.makeupar.com";
 
 // The only tasks this app runs, and the API version each one lives under.
 export const FEATURES = Object.freeze({
-  "hair-transfer": "v2.1",
+  "cloth-v4": "v2.0",
   "skin-tone-analysis": "v2.0",
-  "hair-type-detection": "v2.0",
-  "hair-length-detection": "v2.0",
-  "hair-density-detection": "v2.0",
-  "hair-color": "v2.0",
 });
 
 export const CREDIT_FLOOR = 150;
