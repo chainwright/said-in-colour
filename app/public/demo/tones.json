@@ -1,0 +1,17 @@
+{
+ "color": {
+  "eye_color": "#000000",
+  "lip_color": "#9e5e53",
+  "eyebrow_color": "#3e3834",
+  "skin_color": "#b58f75",
+  "hair_color": "#B56637",
+  "hair_color_name": "Auburn"
+ },
+ "face_quality": {
+  "has_face": true,
+  "area": "good",
+  "frontal": "good",
+  "lighting": "good",
+  "faceangle": "downward"
+ }
+}

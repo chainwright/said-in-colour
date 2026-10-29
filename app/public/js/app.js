@@ -1,6 +1,6 @@
 // Said in Colour — the exam room, the trial-lens case, and a live try-on.
 import { readColour } from "./names.js";
-import { rgbToLab } from "./colour.js";
+import { deltaE2000, hexToRgb, rgbToLab } from "./colour.js";
 import { simulatePixels } from "./cvd.js";
 
 const $ = (id) => document.getElementById(id);
@@ -77,9 +77,23 @@ function words() {
   $("verdict").innerHTML = `<b>${label}</b> · difference ${r.gap.toFixed(1)} (CIEDE2000)` +
     (it ? ` · sold as “${it.sold}”` : "") +
     (g.fromTryOn && lit ? ` · on you, in this photo's light, it reads ${lit}` : "");
+  $("onYou").innerHTML = it && state.tones ? goodOnYou(it.rgb, state.tones) : "";
   $("tabText").textContent = `${state.type.toUpperCase()} ${state.severity.toFixed(1)}`;
   $("chart").classList.add("ready");
   $("caption").textContent = `1 = your eyes (simulated: ${TYPE_NAME[state.type]}) · 2 = everyone else`;
+}
+
+
+// "Good on you": how the shirt sits against the person's own skin and hair, read by YouCam's Facial Color Tones
+// (skin-tone-analysis). Plain CIEDE2000 distances, so the eyes check and the looks check are the same maths.
+function contrastWord(dE) { return dE < 12 ? "close to it (can wash you out)" : dE < 25 ? "a gentle contrast" : "stands out"; }
+function goodOnYou(shirtRgb, tones) {
+  const c = tones.color || {};
+  const shirt = rgbToLab(shirtRgb);
+  const parts = [];
+  if (c.skin_color) parts.push(`against your skin: <b>${contrastWord(deltaE2000(shirt, rgbToLab(hexToRgb(c.skin_color))))}</b>`);
+  if (c.hair_color) parts.push(`against your hair: <b>${contrastWord(deltaE2000(shirt, rgbToLab(hexToRgb(c.hair_color))))}</b>`);
+  return parts.length ? `On you · ${parts.join(" · ")} <span class="src">(skin and hair read by YouCam)</span>` : "";
 }
 
 // ---------- the lens ----------
@@ -147,6 +161,7 @@ async function pick(item, { scroll = true } = {}) {
   const img = await load(item.demo);
   if (mine !== pickToken) return;
   state.source = state.demoSource;
+  state.tones = state.demoTones;
   draw(img);
   if (scroll) $("room").scrollIntoView({ behavior: "smooth" });
 }
@@ -206,6 +221,16 @@ $("photo").onchange = async (e) => {
     const [src, ref] = await Promise.all([api("upload", { image: srcB64 }), api("upload", { image: await toJpegBase64(item.full) })]);
     status.textContent = "YouCam is putting the shirt on you (about 20 seconds)…";
     const { taskId } = await api("task", { feature: "cloth-v4", body: { src_file_id: src.fileId, ref_file_id: ref.fileId } });
+    const tones = api("task", { feature: "skin-tone-analysis", body: { src_file_id: src.fileId } })
+      .then(async ({ taskId: t }) => {
+        for (let i = 0; i < 40; i++) {
+          await new Promise((r) => setTimeout(r, 2000));
+          const s = await api(`status?feature=skin-tone-analysis&id=${encodeURIComponent(t)}`);
+          if (s.status === "success") return s.results;
+          if (s.status === "error") return null;
+        }
+        return null;
+      }).catch(() => null);
     for (let i = 0; i < 60; i++) {
       await new Promise((r) => setTimeout(r, 2500));
       const s = await api(`status?feature=cloth-v4&id=${encodeURIComponent(taskId)}`);
@@ -213,6 +238,7 @@ $("photo").onchange = async (e) => {
         const { image } = await api(`result?feature=cloth-v4&id=${encodeURIComponent(taskId)}`);
         if (mine !== pickToken) return;
         state.source = await load(`data:image/jpeg;base64,${srcB64}`);
+        state.tones = await tones;
         draw(await load(`data:image/jpeg;base64,${image}`));
         status.textContent = "Done. Drag the lens across your shirt.";
         $("room").scrollIntoView({ behavior: "smooth" });
@@ -228,6 +254,7 @@ $("photo").onchange = async (e) => {
 (async () => {
   state.catalog = await (await fetch("catalog.json")).json();
   state.demoSource = state.source = await load("demo/source.jpg").catch(() => null);
+  state.demoTones = state.tones = await fetch("demo/tones.json").then((r) => r.json()).catch(() => null);
   buildCase();
   await pick(state.catalog[0], { scroll: false });
 })();

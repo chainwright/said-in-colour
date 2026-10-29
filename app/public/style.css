@@ -158,3 +158,6 @@ a { color: var(--light); }
   .card { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .focus { filter: none; } * { transition: none !important; } }
+.onyou { margin-top: .5em; font: 400 14px/1.45 var(--mono); color: var(--light-dim); letter-spacing: .02em; }
+.onyou b { color: var(--light); font-weight: 600; }
+.onyou .src { opacity: .75; }
