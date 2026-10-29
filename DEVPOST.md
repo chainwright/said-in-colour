@@ -10,7 +10,7 @@ Shops pay for it as well. In a 2023 Coresight Research survey of 100 US apparel 
 ## A fitting room that says the colour out loud
 You give it one photo from the chest up. YouCam's AI Clothes puts the shirt on you, and the page answers the question he would otherwise text to someone: what colour is this, really?
 
-It answers twice. The big words say what you'll see and what everyone else will see, "You see khaki. They see coral." A verdict sits under them, **TRAP**, **CAREFUL** or **SAFE**, with the colour difference as a number you can check. When a shirt is safe there's one name only: "you both see navy".
+It answers twice. The big words say what you'll see and what everyone else will see, "You see light grey. They see pink." A verdict sits under them, **TRAP**, **CAREFUL** or **SAFE**, with the colour difference as a number you can check. When a shirt is safe there's one name only: "you both see navy".
 
 Then there's the picture. A steel loupe sits on the shirt; inside the lens is your view, outside is everyone's. You can drag it, or flip the whole photo between ONE: YOU and TWO: EVERYONE. The words are for him. The loupe is for the partner who keeps getting asked, so they can see the problem for once.
 
