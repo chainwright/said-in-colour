@@ -1,7 +1,7 @@
 # Devpost draft: Said in Colour (v2, 29.10: new structure so it doesn't read like our other entry; returns figure pinned to the source). Track: eCommerce VTO. Entrant: Elite Product LLC.
 
 ## The shirt that came back pink
-Picture a man ordering a beige shirt. It looks beige to him in the photo, the listing says "dusty rose", and that means nothing to him. It arrives, he wears it to dinner, and his sister asks why he went for pink.
+Picture a man ordering a light grey shirt. It looks grey to him in the photo, the listing says "dusty rose", and that means nothing to him. It arrives, he wears it to dinner, and his sister asks why he went for pink.
 
 For a lot of men that's an ordinary week. Red-green colour vision deficiency affects about 1 in 12 men of Northern-European descent and about 1 in 200 women (National Eye Institute; Colour Blind Awareness), and the green-weak kind, deuteranomaly, is the most common. Their world isn't grey. A few colours fold into each other, so pink and khaki can end up as the same word. The usual fixes are asking someone every time, or giving up and wearing black, navy and grey.
 
