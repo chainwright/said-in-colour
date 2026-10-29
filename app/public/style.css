@@ -161,3 +161,7 @@ a { color: var(--light); }
 .onyou { margin-top: .5em; font: 400 14px/1.45 var(--mono); color: var(--light-dim); letter-spacing: .02em; }
 .onyou b { color: var(--light); font-weight: 600; }
 .onyou .src { opacity: .75; }
+.chart .onyou { line-height: 1.35; }
+.onyou .hairpick { display: block; margin-top: .35em; }
+.onyou select { font: inherit; color: var(--light); background: transparent; border: 1px solid currentColor; border-radius: 4px; padding: .1em .3em; margin-left: .3em; }
+.onyou select option { color: #111; }

@@ -8,7 +8,7 @@ APP = Path(__file__).resolve().parent
 ROOT = APP.parent
 PUB = APP / "public"
 (PUB / "js").mkdir(parents=True, exist_ok=True)
-for f in ("colour.js", "cvd.js", "names.js"):
+for f in ("colour.js", "cvd.js", "names.js", "onyou.js"):
     shutil.copy(APP / "src" / f, PUB / "js" / f)
 
 # Plain word first (how a colour-blind man can actually use it), the shop's name second.

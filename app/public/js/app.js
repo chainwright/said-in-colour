@@ -1,11 +1,12 @@
 // Said in Colour — the exam room, the trial-lens case, and a live try-on.
 import { readColour } from "./names.js";
-import { deltaE2000, hexToRgb, rgbToLab } from "./colour.js";
+import { rgbToLab } from "./colour.js";
+import { goodOnYou } from "./onyou.js";
 import { simulatePixels } from "./cvd.js";
 
 const $ = (id) => document.getElementById(id);
 const stage = $("stage"), base = $("base"), sim = $("sim");
-const state = { type: "deutan", severity: 1, img: null, item: null, catalog: [], lx: 0, ly: 0 };
+const state = { type: "deutan", severity: 1, hair: "", img: null, item: null, catalog: [], lx: 0, ly: 0 };
 const TYPE_NAME = { deutan: "deuteranopia", protan: "protanopia", tritan: "tritanopia" };
 
 // ---------- render + simulation ----------
@@ -77,23 +78,29 @@ function words() {
   $("verdict").innerHTML = `<b>${label}</b> · difference ${r.gap.toFixed(1)} (CIEDE2000)` +
     (it ? ` · sold as “${it.sold}”` : "") +
     (g.fromTryOn && lit ? ` · on you, in this photo's light, it reads ${lit}` : "");
-  $("onYou").innerHTML = it && state.tones ? goodOnYou(it.rgb, state.tones) : "";
+  onYou(it);
   $("tabText").textContent = `${state.type.toUpperCase()} ${state.severity.toFixed(1)}`;
   $("chart").classList.add("ready");
   $("caption").textContent = `1 = your eyes (simulated: ${TYPE_NAME[state.type]}) · 2 = everyone else`;
 }
 
 
-// "Good on you": how the shirt sits against the person's own skin and hair, read by YouCam's Facial Color Tones
-// (skin-tone-analysis). Plain CIEDE2000 distances, so the eyes check and the looks check are the same maths.
-function contrastWord(dE) { return dE < 12 ? "close to it (can wash you out)" : dE < 25 ? "a gentle contrast" : "stands out"; }
-function goodOnYou(shirtRgb, tones) {
-  const c = tones.color || {};
-  const shirt = rgbToLab(shirtRgb);
+// "Good on you": skin is a measured colour from YouCam's Facial Color Tones, so we compare against it.
+// Hair comes back as a palette category, not a measurement, so it only becomes a verdict once you pick your hair.
+const HAIR_PICKS = ["dark", "brown", "blond", "red", "grey", "white"];
+function onYou(it) {
+  const box = $("onYou");
+  if (!it || !state.tones) { box.innerHTML = ""; return; }
+  const r = goodOnYou(it.rgb, state.tones, state.hair);
   const parts = [];
-  if (c.skin_color) parts.push(`against your skin: <b>${contrastWord(deltaE2000(shirt, rgbToLab(hexToRgb(c.skin_color))))}</b>`);
-  if (c.hair_color) parts.push(`against your hair: <b>${contrastWord(deltaE2000(shirt, rgbToLab(hexToRgb(c.hair_color))))}</b>`);
-  return parts.length ? `On you · ${parts.join(" · ")} <span class="src">(skin and hair read by YouCam)</span>` : "";
+  if (r.skin) parts.push(`against your skin: <b>${r.skin}</b>`);
+  if (r.hair) parts.push(`against your hair (${r.hair.pick}, your pick): <b>${r.hair.word}</b>`);
+  const head = parts.length ? `On you · ${parts.join(" · ")} <span class="src">(skin read by YouCam)</span>` : "";
+  const note = r.palette && !r.hair ? `YouCam's hair palette: ${r.palette} (a category, not your hair). ` : "";
+  box.innerHTML = `${head}<span class="hairpick">${note}<label>Your hair <select id="hairSel" aria-label="Your hair colour">
+    <option value="">pick to compare</option>${HAIR_PICKS.map((h) => `<option value="${h}"${h === state.hair ? " selected" : ""}>${h}</option>`).join("")}
+    </select></label></span>`;
+  $("hairSel").onchange = (e) => { state.hair = e.target.value; onYou(state.item); };
 }
 
 // ---------- the lens ----------
