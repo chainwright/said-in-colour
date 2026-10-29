@@ -27,24 +27,52 @@ function simulate() {
   words();
 }
 
-// The shirt colour, measured where the gate measured it: a chest patch below the collar.
-function chestColour() {
-  const ctx = base.getContext("2d", { willReadFrequently: true });
+// Where the shirt is: the pixels the try-on changed. YouCam puts the shirt on the person, so comparing the photo
+// before and after finds the garment on *you*, under your light, wherever it sits in the frame. If the shirt
+// barely changed the photo (a white shirt on a white T-shirt), fall back to a chest patch below the collar.
+function garmentColour() {
   const w = base.width, h = base.height;
-  const x0 = Math.round(w * .38), y0 = Math.round(h * .70), pw = Math.round(w * .24), ph = Math.round(h * .15);
-  const d = ctx.getImageData(x0, y0, pw, ph).data;
+  const after = base.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+  let before = null;
+  if (state.source) {
+    const c = Object.assign(document.createElement("canvas"), { width: w, height: h });
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.drawImage(state.source, 0, 0, w, h);
+    before = ctx.getImageData(0, 0, w, h).data;
+  }
   const ch = [[], [], []];
-  for (let i = 0; i < d.length; i += 4) { ch[0].push(d[i]); ch[1].push(d[i + 1]); ch[2].push(d[i + 2]); }
-  return ch.map((a) => { a.sort((x, y) => x - y); return a[a.length >> 1]; });
+  if (before) {
+    for (let i = 0; i < after.length; i += 16) {
+      const d = Math.abs(after[i] - before[i]) + Math.abs(after[i + 1] - before[i + 1]) + Math.abs(after[i + 2] - before[i + 2]);
+      if (d > 90) { ch[0].push(after[i]); ch[1].push(after[i + 1]); ch[2].push(after[i + 2]); }
+    }
+  }
+  const found = ch[0].length > (w * h / 4) * 0.03;
+  if (!found) {
+    for (let y = Math.round(h * .70); y < Math.round(h * .85); y += 2)
+      for (let x = Math.round(w * .38); x < Math.round(w * .62); x += 2) {
+        const i = (y * w + x) * 4; ch[0].push(after[i]); ch[1].push(after[i + 1]); ch[2].push(after[i + 2]);
+      }
+  }
+  return { rgb: ch.map((a) => { a.sort((x, y) => x - y); return a[a.length >> 1]; }), fromTryOn: found };
 }
 
+// One source of truth for the words: the shirt's own colour (the product), the same reading the case uses, so
+// the room and the case can never disagree. The try-on adds what only it can: how the shirt reads in this
+// photo's light, measured on the pixels it changed.
 function words() {
-  const r = readColour(chestColour(), state.type, state.severity);
-  $("youWord").textContent = r.you.toUpperCase();
+  const it = state.item;
+  const r = readColour(it ? it.rgb : garmentColour().rgb, state.type, state.severity, it?.sold);
+  const safe = r.level === "safe";
+  $("youWord").textContent = (safe ? r.everyone : r.you).toUpperCase();
   $("theyWord").textContent = r.everyone.toUpperCase();
-  const label = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE" }[r.level];
+  $("chart").classList.toggle("same", safe);
+  const label = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE · you both see " + r.everyone }[r.level];
+  const g = garmentColour();
+  const lit = readColour(g.rgb, state.type, state.severity).everyone;
   $("verdict").innerHTML = `<b>${label}</b> · difference ${r.gap.toFixed(1)} (CIEDE2000)` +
-    (state.item ? ` · sold as “${state.item.sold}”` : "");
+    (it ? ` · sold as “${it.sold}”` : "") +
+    (g.fromTryOn && it && lit !== r.everyone ? ` · in this photo's light it looks ${lit}` : "");
   $("tabText").textContent = `${state.type.toUpperCase()} ${state.severity.toFixed(1)}`;
   $("chart").classList.add("ready");
   $("caption").textContent = `1 = your eyes (simulated: ${TYPE_NAME[state.type]}) · 2 = everyone else`;
@@ -106,27 +134,32 @@ for (const [b] of FLIPS) $(b).onclick = () => setFlip(b);
 function load(src) {
   return new Promise((ok, fail) => { const i = new Image(); i.crossOrigin = "anonymous"; i.onload = () => ok(i); i.onerror = fail; i.src = src; });
 }
+let pickToken = 0;
 async function pick(item, { scroll = true } = {}) {
+  const mine = ++pickToken;   // a slow image that arrives after a newer pick is thrown away
   state.item = item;
   document.querySelectorAll(".slot").forEach((s) => s.setAttribute("aria-current", s.dataset.id === item.id));
   if ($("ticket")) ticket(item);
-  draw(await load(item.demo));
+  const img = await load(item.demo);
+  if (mine !== pickToken) return;
+  state.source = state.demoSource;
+  draw(img);
   if (scroll) $("room").scrollIntoView({ behavior: "smooth" });
 }
 // Well centres measured on the case photo (mockups/case/wells.json), snapped to the grid.
 const COLS = [19.6, 39.5, 59.5, 79.2], ROWS = [23.4, 50.3, 77.6];
 const TIERS = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE" };
 function ticket(it) {
-  const r = readColour(it.rgb, state.type, state.severity);
+  const r = readColour(it.rgb, state.type, state.severity, it.sold);
   $("ticket").innerHTML = `<span class="no">${it.no}</span><span class="plain">${it.plain}</span>
-    <span class="row">sold as <b>${it.sold}</b> · reads to you as <b>${r.you}</b></span>
+    <span class="row">sold as <b>${it.sold}</b> · ${r.level === "safe" ? `you both see <b>${r.everyone}</b>` : `reads to you as <b>${r.you}</b>`}</span>
     <span class="tag big ${r.level}">${TIERS[r.level]}</span>`;
 }
 function buildCase() {
   $("caseGrid").innerHTML = state.catalog.map((it, i) => {
-    const r = readColour(it.rgb, state.type, state.severity);
+    const r = readColour(it.rgb, state.type, state.severity, it.sold);
     return `<button class="slot" role="listitem" data-id="${it.id}" style="left:${COLS[i % 4]}%;top:${ROWS[i >> 2]}%"
-      aria-label="${it.no}, ${it.plain}, sold as ${it.sold}, reads to you as ${r.you}: ${r.level}">
+      aria-label="${it.no}, ${it.plain}, sold as ${it.sold}, ${r.level === "safe" ? `you both see ${r.everyone}` : `reads to you as ${r.you}`}: ${r.level}">
       <span class="glass" style="background-image:url(${it.thumb})"></span>
       <span class="tag ${r.level}">${TIERS[r.level]}</span><span class="num">${it.no.replace("No. ", "")}</span>
     </button>`;
@@ -164,7 +197,9 @@ $("photo").onchange = async (e) => {
   const item = state.item || state.catalog[0], status = $("status");
   try {
     status.textContent = "Uploading your photo and the shirt…";
-    const [src, ref] = await Promise.all([api("upload", { image: await toJpegBase64(file) }), api("upload", { image: await toJpegBase64(item.full) })]);
+    const mine = ++pickToken;
+    const srcB64 = await toJpegBase64(file);
+    const [src, ref] = await Promise.all([api("upload", { image: srcB64 }), api("upload", { image: await toJpegBase64(item.full) })]);
     status.textContent = "YouCam is putting the shirt on you (about 20 seconds)…";
     const { taskId } = await api("task", { feature: "cloth-v4", body: { src_file_id: src.fileId, ref_file_id: ref.fileId } });
     for (let i = 0; i < 60; i++) {
@@ -172,6 +207,8 @@ $("photo").onchange = async (e) => {
       const s = await api(`status?feature=cloth-v4&id=${encodeURIComponent(taskId)}`);
       if (s.status === "success") {
         const { image } = await api(`result?feature=cloth-v4&id=${encodeURIComponent(taskId)}`);
+        if (mine !== pickToken) return;
+        state.source = await load(`data:image/jpeg;base64,${srcB64}`);
         draw(await load(`data:image/jpeg;base64,${image}`));
         status.textContent = "Done. Drag the lens across your shirt.";
         $("room").scrollIntoView({ behavior: "smooth" });
@@ -186,6 +223,7 @@ $("photo").onchange = async (e) => {
 // ---------- start ----------
 (async () => {
   state.catalog = await (await fetch("catalog.json")).json();
+  state.demoSource = state.source = await load("demo/source.jpg").catch(() => null);
   buildCase();
   await pick(state.catalog[0], { scroll: false });
 })();

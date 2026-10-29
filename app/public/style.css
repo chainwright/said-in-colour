@@ -124,8 +124,8 @@ a { color: var(--light); }
 .rx .card label { font-size: 16px; }
 .rx .note { color: rgba(11,15,20,.62); }
 .rx .status { color: var(--ink); }
-.rx .card input[type=radio] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 3px; display: inline-grid; place-content: center; vertical-align: -4px; }
-.rx .card input[type=radio]:checked::before { content: "✓"; font: 800 15px/1 var(--display); color: var(--ink); }
+.rx .card input[type=radio] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--ink); border-radius: 50%; display: inline-grid; place-content: center; vertical-align: -4px; }
+.rx .card input[type=radio]:checked::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); }
 .rx .card input[type=radio]:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
 
 /* 4. Method */

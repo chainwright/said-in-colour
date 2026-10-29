@@ -18,7 +18,29 @@ const json = (statusCode, data) => ({
 
 let client;
 const youcam = () => (client ??= new YouCam({ key: process.env.YOUCAM_API_KEY }));
-export const resetForTests = () => { client = undefined; };
+
+// Guards for a public demo that has to last until judging ends: only our own page may start paid work, each
+// visitor gets a fair share per hour, and the site has a daily ceiling. The example shirts never call YouCam.
+const ORIGINS = (process.env.ALLOWED_ORIGINS || "https://said-in-colour.netlify.app,http://localhost:8888")
+  .split(",").map((o) => o.trim()).filter(Boolean);
+const PER_IP_PER_HOUR = Number(process.env.TASKS_PER_IP_PER_HOUR || 12);
+const PER_DAY = Number(process.env.TASKS_PER_DAY || 80);
+let perIp = new Map(), day = { key: "", n: 0 };
+export const resetForTests = () => { client = undefined; perIp = new Map(); day = { key: "", n: 0 }; };
+const lower = (event) => Object.fromEntries(Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v]));
+function guard(event) {
+  const h = lower(event);
+  if (h.origin && !ORIGINS.includes(h.origin)) return "This demo only takes requests from its own page.";
+  const ip = h["x-nf-client-connection-ip"] || h["x-forwarded-for"]?.split(",")[0]?.trim() || "unknown";
+  const now = Date.now();
+  const recent = (perIp.get(ip) || []).filter((t) => now - t < 3600e3);
+  if (recent.length >= PER_IP_PER_HOUR) return "That's a lot of try-ons for one hour. Please come back a little later.";
+  const today = new Date(now).toISOString().slice(0, 10);
+  if (day.key !== today) day = { key: today, n: 0 };
+  if (day.n >= PER_DAY) return "The live try-on has reached today's limit. The example shirts still work.";
+  recent.push(now); perIp.set(ip, recent); day.n += 1;
+  return null;
+}
 
 // Only file ids from our own uploads go on to a task, and the garment category is fixed:
 // shirts and tops only (upper_body), which is what the fitting room is for.
@@ -45,7 +67,10 @@ export const handler = async (event) => {
     }
     if (event.httpMethod === "POST" && route === "task") {
       const { feature, body } = JSON.parse(event.body || "{}");
-      return json(200, { taskId: await youcam().start(feature, cleanBody(feature, body)) });
+      const cleaned = cleanBody(feature, body);
+      const refused = guard(event);
+      if (refused) return json(429, { error: refused });
+      return json(200, { taskId: await youcam().start(feature, cleaned) });
     }
     if (event.httpMethod === "GET" && route === "status") {
       const { feature, id } = event.queryStringParameters || {};

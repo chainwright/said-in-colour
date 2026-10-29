@@ -34,9 +34,14 @@ export function nameOf(rgb) {
 //   safe    — same name, or a shift too small to matter (a name boundary is not a perception difference).
 export const TRAP_DE = 8;
 export const CAREFUL_DE = 4;
-export function readColour(rgb, type = "deutan", severity = 1) {
+// The shop's own name wins when it really is that colour (within ΔE 12 of our swatch for it): "cobalt" stays
+// cobalt even if its exact shade sits nearer our "navy" swatch. Otherwise the nearest swatch names it.
+const SHOP_NAME_DE = 12;
+export function readColour(rgb, type = "deutan", severity = 1, sold = null) {
   const his = simulateRgb(rgb, type, severity);
-  const theirs = nameOf(rgb);
+  let theirs = nameOf(rgb);
+  const shop = sold && LABS.find(([n]) => n === String(sold).toLowerCase());
+  if (shop && deltaE2000(rgbToLab(rgb), shop[1]) <= SHOP_NAME_DE) theirs = { name: shop[0], d: deltaE2000(rgbToLab(rgb), shop[1]) };
   const yours = nameOf(his);
   const gap = deltaE2000(rgbToLab(rgb), rgbToLab(his));
   return {
