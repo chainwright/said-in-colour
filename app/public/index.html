@@ -81,7 +81,7 @@
         <label><input type="radio" name="cvd" value="protan"> Red-weak (protan)</label>
         <label><input type="radio" name="cvd" value="tritan"> Blue-yellow (tritan) — rare</label>
         <label class="sev">How strong <input type="range" id="sev" min="0.3" max="1" step="0.1" value="1"> <output id="sevOut">1.0</output></label>
-        <p class="note">Strength below 1.0 is an approximation (blended toward normal vision).</p>
+        <p class="note">Strength below 1.0 uses the paper's own matrix for each 0.1 step.</p>
       </div>
       <div class="card" id="photoCard">
         <p class="rx-head">TRY-ON <span>YOUCAM AI CLOTHES · cloth-v4</span></p>
@@ -104,7 +104,7 @@
  0.367  0.861 -0.228
  0.280  0.673  0.047
 -0.012  0.043  0.969</pre></div>
-      <div><span class="step">3</span><h3>The words</h3><p>We measure the shirt on the chest, then name it twice: as everyone sees it and as you do (nearest of 36 menswear colour names by CIEDE2000). Different names and a gap of 8 or more: <b>TRAP</b>. 4 to 8: <b>CAREFUL</b>.</p></div>
+      <div><span class="step">3</span><h3>The words</h3><p>We name each shirt from its own colour, as everyone sees it and as you do; the try-on adds whether your light makes it read darker (nearest of 36 menswear colour names by CIEDE2000). Different names and a gap of 8 or more: <b>TRAP</b>. 4 to 8: <b>CAREFUL</b>.</p></div>
     </div>
     <p class="fine">Cosmetic shopping aid, not a medical test. The example man and shirts are AI-generated; the try-ons are real YouCam renders.</p>
   </section>
