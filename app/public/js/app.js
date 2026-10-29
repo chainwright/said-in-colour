@@ -1,5 +1,6 @@
 // Said in Colour — the exam room, the trial-lens case, and a live try-on.
 import { readColour } from "./names.js";
+import { rgbToLab } from "./colour.js";
 import { simulatePixels } from "./cvd.js";
 
 const $ = (id) => document.getElementById(id);
@@ -68,11 +69,14 @@ function words() {
   $("theyWord").textContent = r.everyone.toUpperCase();
   $("chart").classList.toggle("same", safe);
   const label = { trap: "▲ TRAP", careful: "◆ CAREFUL", safe: "✓ SAFE · you both see " + r.everyone }[r.level];
+  // The try-on measures the shirt on you, in your light. We don't give that its own colour name (shadows would
+  // turn navy into "black" and contradict the words above); we only say if your light makes it read darker or lighter.
   const g = garmentColour();
-  const lit = readColour(g.rgb, state.type, state.severity).everyone;
+  const dL = it ? rgbToLab(g.rgb)[0] - rgbToLab(it.rgb)[0] : 0;
+  const lit = Math.abs(dL) < 12 ? "" : dL < 0 ? "a little darker" : "a little lighter";
   $("verdict").innerHTML = `<b>${label}</b> · difference ${r.gap.toFixed(1)} (CIEDE2000)` +
     (it ? ` · sold as “${it.sold}”` : "") +
-    (g.fromTryOn && it && lit !== r.everyone ? ` · in this photo's light it looks ${lit}` : "");
+    (g.fromTryOn && lit ? ` · on you, in this photo's light, it reads ${lit}` : "");
   $("tabText").textContent = `${state.type.toUpperCase()} ${state.severity.toFixed(1)}`;
   $("chart").classList.add("ready");
   $("caption").textContent = `1 = your eyes (simulated: ${TYPE_NAME[state.type]}) · 2 = everyone else`;
