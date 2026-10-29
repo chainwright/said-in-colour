@@ -1,90 +1,78 @@
-"""Clean full-res gallery stills from the live Said in Colour site (CDP on 9224).
+"""Said in Colour gallery, step 1: full-res stills of the local build (same files as the live site), 1920x1080 @2x.
 
-    python gallery/shots.py
+    python3 gallery/shots.py      # -> gallery/raw/NN_name.png   (then gallery/compose.py -> gallery/final/)
 
-Each shot navigates the live page, drives it to one state, waits for it to settle, and
-screenshots the viewport at 1920x1080. Output: gallery/raw/NN_name.png.
+Headless Chromium, fresh profile. Every /api/ request is aborted, so no YouCam call can run: all
+renders are the saved demo results and the skin/hair reading is the saved demo/tones.json.
+(The 27 Oct version drove Chrome on 9224 and ran one live try-on: shots_2026-10-27.py.)
 """
-import base64, json, os, sys, time
-sys.path.insert(0, "/Users/mini/agents/sora/scripts")
-from cdp import CDP
+import sys, time
+from pathlib import Path
+from playwright.sync_api import sync_playwright
 
-D = os.path.dirname(os.path.abspath(__file__))
-BASE = "https://said-in-colour.netlify.app"
-PHOTO = "/Users/mini/agents/sora/hackathons/youcam_2026/said_in_colour/gate/man2.jpg"
+D = Path(__file__).resolve().parent
+BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:18766"
 W, H = 1920, 1080
+blocked = []
 
 
-def shot(c, name):
-    data = c.send("Page.captureScreenshot", format="png")["data"]
-    p = f"{D}/raw/{name}.png"
-    open(p, "wb").write(base64.b64decode(data))
+def shot(pg, name, settle=1.5):
+    pg.wait_for_function("[...document.images].every(i=>i.complete)", timeout=30000)
+    time.sleep(settle)
+    pg.screenshot(path=str(D / "raw" / f"{name}.png"))
     print("saved", name, flush=True)
 
 
-def js(c, code):
-    return c.js(code)
+def home(pg, q):
+    pg.goto(f"{BASE}/?{q}={time.time()}")
+    pg.wait_for_function("document.getElementById('chart').classList.contains('ready')", timeout=60000)
 
 
-def wait(c, cond, limit=120):
-    end = time.time() + limit
-    while time.time() < end:
-        if js(c, cond):
-            return
-        time.sleep(0.4)
-    raise SystemExit("timeout " + cond)
+def pick(pg, sid):
+    pg.click(f".slot[data-id={sid}]")
+    pg.wait_for_function(f"document.querySelector('.slot[data-id={sid}]').getAttribute('aria-current')==='true'")
+    time.sleep(0.8)
+    pg.evaluate("document.getElementById('room').scrollIntoView()")
+    time.sleep(2.0)
 
 
-def home(c, q):
-    c.navigate(f"{BASE}/?{q}={time.time()}", timeout=40, settle=0)
-    wait(c, "document.getElementById('chart').classList.contains('ready')")
+with sync_playwright() as p:
+    b = p.chromium.launch()
+    ctx = b.new_context(viewport={"width": W, "height": H}, device_scale_factor=2)
+    ctx.route("**/api/**", lambda r: (blocked.append(r.request.url), r.abort()))
+    pg = ctx.new_page()
 
+    # 1. Hero: coral on the man, lens settled (TRAP)
+    home(pg, "g1"); pick(pg, "s04_coral")
+    shot(pg, "01_hero_trap")
+    # 2-3. Whole-picture flip: everyone, then him
+    pg.click("#flipThem"); shot(pg, "02_everyone")
+    pg.click("#flipYou"); shot(pg, "03_you")
+    pg.click("#flipLens"); time.sleep(0.5)
 
-def main():
-    c = CDP(port=9224, url_contains="said-in-colour")
-    c.send("Emulation.setDeviceMetricsOverride", width=W, height=H, deviceScaleFactor=2, mobile=False)
-    try:
-        # 1. Hero: coral on the man, lens settled, chart sharp (TRAP)
-        home(c, "g1")
-        js(c, "document.querySelector('.slot[data-id=s04_coral]').click()")
-        wait(c, "document.querySelector('.slot[data-id=s04_coral]').getAttribute('aria-current')==='true'")
-        js(c, "document.getElementById('room').scrollIntoView()")
-        time.sleep(2.5)
-        shot(c, "01_hero_trap")
+    # 4. The trial-lens case with all twelve tags
+    # The case section is taller than one screen at 1080 (the case scales with the viewport), so clip the
+    # section itself from the full page: title to legend.
+    top, bottom = pg.evaluate("[document.getElementById('caseTitle').getBoundingClientRect().top+scrollY-40,"
+                              " document.querySelector('.legend').getBoundingClientRect().bottom+scrollY+40]")
+    pg.wait_for_function("[...document.images].every(i=>i.complete)"); time.sleep(1.5)
+    pg.screenshot(path=str(D / "raw" / "04_case.png"), full_page=True, clip={"x": 0, "y": top, "width": W, "height": bottom - top})
+    print("saved 04_case", flush=True)
 
-        # 2. Whole-picture flip: EVERYONE (the true render, full frame)
-        js(c, "document.getElementById('flipThem').click()"); time.sleep(1.5)
-        shot(c, "02_everyone")
-        # 3. ...and YOU (his view, full frame) — the same shirt, same face
-        js(c, "document.getElementById('flipYou').click()"); time.sleep(1.5)
-        shot(c, "03_you")
-        js(c, "document.getElementById('flipLens').click()"); time.sleep(0.5)
+    # 5. The method panel
+    # The method is the last section, so it can't scroll to the top; set the sections above it aside
+    # for this one frame (display only) so the panel sits alone on the page background.
+    pg.evaluate("for (const id of ['room','case','you']) document.getElementById(id).style.display='none'; document.getElementById('method').style.paddingTop='27vh'")
+    pg.evaluate("window.scrollTo(0, 0)")
+    shot(pg, "05_method", 1.2)
 
-        # 4. The trial-lens case with all twelve tags
-        js(c, "window.scrollTo({top: document.getElementById('case').offsetTop + 30})")
-        time.sleep(1.5)
-        shot(c, "04_case")
+    # 6. Good on you: skin read by YouCam's Facial Color Tones, hair shown as YouCam's palette until he picks
+    home(pg, "g6"); pick(pg, "s11_cobalt")
+    shot(pg, "06_on_you")
+    # 7. ...and once he picks his own hair
+    pg.select_option("#hairSel", "dark"); time.sleep(0.6)
+    pg.evaluate("document.getElementById('room').scrollIntoView()")
+    shot(pg, "07_your_hair")
+    b.close()
 
-        # 5. The method panel: Machado matrix + CIEDE2000
-        js(c, "window.scrollTo({top: document.getElementById('method').offsetTop - 20})")
-        time.sleep(1.2)
-        shot(c, "05_method")
-
-        # 6. A live try-on on his own photo
-        home(c, "g6")
-        js(c, "window.scrollTo({top: document.getElementById('you').offsetTop - 20})")
-        time.sleep(1.0)
-        c.send("DOM.enable"); root = c.send("DOM.getDocument")["root"]["nodeId"]
-        nid = c.send("DOM.querySelector", nodeId=root, selector="#photo")["nodeId"]
-        c.send("DOM.setFileInputFiles", nodeId=nid, files=[PHOTO])
-        js(c, "document.getElementById('photo').dispatchEvent(new Event('change',{bubbles:true}))")
-        wait(c, "/^(Done|Couldn)/.test(document.getElementById('status').textContent)", 120)
-        js(c, "document.getElementById('room').scrollIntoView()")
-        time.sleep(2.0)
-        shot(c, "06_live_tryon")
-    finally:
-        c.send("Emulation.clearDeviceMetricsOverride")
-
-
-if __name__ == "__main__":
-    main()
+print("blocked /api/ requests:", blocked or "none")

@@ -13,3 +13,16 @@ video/build/
 video/*.mp4
 video/vo/*.wav
 video/vo/raw_*.mp3
+
+# working notes and production tooling (not part of the app)
+PLAN.md
+SPEC.md
+VIDEO_PLAN.md
+LINKEDIN_POST.md
+DESIGN_RESEARCH.md
+DEVPOST*.md
+DEVPOST.md.bak*
+video/
+gallery/final_2026-10-27/
+gallery/raw/_crops/
+gallery/shots_2026-10-27.py

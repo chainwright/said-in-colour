@@ -1,0 +1,6 @@
+01_hero_trap.jpg | Coral shirt, green-weak eye: you see yellow, they see salmon. TRAP, difference 23.7. The man is AI-generated.
+02_everyone.jpg | TWO: EVERYONE. The whole picture as everyone else sees it: the same YouCam render of the coral shirt, untouched.
+03_you.jpg | ONE: YOU. The same shirt and the same face through a simulated green-weak eye (Machado et al. 2009). The coral turns yellow.
+04_case.jpg | Twelve shirts, tagged by how they read to you: dusty rose, lavender, coral and burgundy are traps; navy, white, cobalt safe.
+05_method.jpg | How we know: YouCam AI Clothes for the try-on, the Machado matrix on every pixel, 36 colour names by CIEDE2000.
+06_good_on_you.jpg | Skin from YouCam's Facial Color Tones. Hair is a palette category, so it's compared only once you pick your own.
